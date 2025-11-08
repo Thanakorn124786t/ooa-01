@@ -1,4 +1,5 @@
 package PhoneShopSystem;
+
 // การดูหมายเลข IMEI ของอุปกรณ์ กดหมายเลข *#06#
 import java.util.Scanner;
 
@@ -6,13 +7,13 @@ public class Main {
     public static void main(String[] args) {
         Database db = new Database();
         Scanner sc = new Scanner(System.in);
-        
+
         System.out.println("🛠️ กำลังเริ่มระบบร้านขายโทรศัพท์...");
         System.out.println("========================================");
         System.out.println("           ร้านแอปสโตร์");
         System.out.println("     โทรศัพท์มือถือและอุปกรณ์ไอที");
         System.out.println("========================================");
-        
+
         try {
             while (true) {
                 System.out.println("\n=== ระบบร้านขายโทรศัพท์ ===");
@@ -21,7 +22,7 @@ public class Main {
                 System.out.println("3. แสดงข้อมูลระบบ");
                 System.out.println("4. ออกจากระบบ");
                 System.out.print("เลือกเมนู: ");
-                
+
                 int choice;
                 try {
                     choice = Integer.parseInt(sc.nextLine());
@@ -55,7 +56,7 @@ public class Main {
             sc.close();
         }
     }
-    
+
     private static void showSystemInfo(Database db) {
         System.out.println("\n📊===== สถิติระบบร้านขายโทรศัพท์ =====");
         System.out.println("========================================");
@@ -64,24 +65,24 @@ public class Main {
         System.out.println("จำนวนการคืนสินค้า: " + db.returns.size() + " รายการ");
         System.out.println("จำนวนการเคลมสินค้า: " + db.claims.size() + " รายการ");
         System.out.println("จำนวนการจัดส่ง: " + db.deliveries.size() + " รายการ");
-        
+
         if (!db.purchases.isEmpty()) {
             double totalSales = db.getTotalSales();
             System.out.printf("ยอดขายรวมทั้งหมด: %,.2f บาท\n", totalSales);
-            
+
             String bestSeller = db.getBestSellingProduct();
             if (bestSeller != null) {
                 int qty = db.getProductCount(bestSeller);
                 System.out.println("สินค้าขายดีที่สุด: " + bestSeller + " (ขายได้ " + qty + " เครื่อง)");
             }
         }
-        
+
         int pendingReturns = db.getPendingReturnsCount();
         int pendingClaims = db.getPendingClaimsCount();
-        
+
         System.out.println("การคืนสินค้ารอดำเนินการ: " + pendingReturns + " รายการ");
         System.out.println("การเคลมสินค้ารอดำเนินการ: " + pendingClaims + " รายการ");
-        
+
         if (pendingReturns > 0 || pendingClaims > 0) {
             System.out.println("\n⚠️  มีรายการที่ต้องดำเนินการ:");
             if (pendingReturns > 0) {
@@ -91,7 +92,7 @@ public class Main {
                 System.out.println("   - การเคลมสินค้า: " + pendingClaims + " รายการ");
             }
         }
-        
+
         System.out.println("========================================\n");
     }
 }

@@ -32,7 +32,7 @@ public class Member {
             System.out.println("10. แสดงประวัติการซื้อ");
             System.out.println("11. กลับไปหน้าหลัก");
             System.out.print("เลือกเมนู: ");
-            
+
             int choice;
             try {
                 choice = Integer.parseInt(sc.nextLine());
@@ -120,7 +120,8 @@ public class Member {
                 yield null;
             }
         };
-        if (payment == null) return;
+        if (payment == null)
+            return;
 
         System.out.print("กรอกจำนวนเครื่อง: ");
         int qty;
@@ -141,8 +142,8 @@ public class Member {
 
         String date = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date());
         db.addPurchase(name, product, payment, price, qty, date);
-        purchaseHistory.add(String.format("%s | %s | จำนวน: %d | วิธีชำระ: %s | รวม: %.2f บาท", 
-            date, product, qty, payment, price * qty));
+        purchaseHistory.add(String.format("%s | %s | จำนวน: %d | วิธีชำระ: %s | รวม: %.2f บาท",
+                date, product, qty, payment, price * qty));
 
         System.out.println("✅ บันทึกข้อมูลเรียบร้อย!");
         printPurchaseReceipt(name, product, payment, price, qty);
@@ -153,7 +154,7 @@ public class Member {
         String staff = "พี่้อ้วน";
         String date = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date());
         int orderId = db.purchases.size();
-        
+
         System.out.println("\n========================================");
         System.out.println("           ใบเสร็จการชำระเงิน");
         System.out.println("              ร้านแอปสโตร์");
@@ -181,21 +182,21 @@ public class Member {
             System.out.println("❌ กรุณากรอกชื่อผู้แจ้งซ่อม");
             return;
         }
-        
+
         System.out.print("รุ่น: ");
         String model = sc.nextLine().trim();
         if (model.isEmpty()) {
             System.out.println("❌ กรุณากรอกรุ่น");
             return;
         }
-        
+
         System.out.print("ยี่ห้อ: ");
         String brand = sc.nextLine().trim();
         if (brand.isEmpty()) {
             System.out.println("❌ กรุณากรอกยี่ห้อ");
             return;
         }
-        
+
         System.out.print("IMEI: ");
         String imei = sc.nextLine().trim();
         while (imei.length() != 15 || !imei.matches("\\d+")) {
@@ -203,23 +204,23 @@ public class Member {
             System.out.print("กรุณากรอก IMEI ใหม่: ");
             imei = sc.nextLine().trim();
         }
-        
+
         System.out.print("สีเครื่อง: ");
         String color = sc.nextLine().trim();
-        
+
         System.out.print("เบอร์โทร: ");
         String phone = sc.nextLine().trim();
-        
+
         System.out.print("อาการเสีย: ");
         String symptom = sc.nextLine().trim();
         if (symptom.isEmpty()) {
             System.out.println("❌ กรุณากรอกอาการเสีย");
             return;
         }
-        
+
         System.out.print("รายละเอียด: ");
         String detail = sc.nextLine().trim();
-        
+
         System.out.print("ราคาค่าซ่อม (บาท): ");
         double cost;
         try {
@@ -244,7 +245,7 @@ public class Member {
             String symptom, String detail, double cost) {
         String date = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date());
         int repairId = db.repairs.size();
-        
+
         System.out.println("\n========================================");
         System.out.println("           ใบเสร็จซ่อมสินค้า");
         System.out.println("              ร้านแอปสโตร์");
@@ -268,14 +269,14 @@ public class Member {
         System.out.println("\n🔍===== ติดตามการซ่อมอุปกรณ์ =====");
         System.out.print("กรอกชื่อลูกค้า: ");
         String customerName = sc.nextLine().trim();
-        
+
         if (customerName.isEmpty()) {
             System.out.println("❌ กรุณากรอกชื่อลูกค้า");
             return;
         }
 
         List<Database.Repair> repairs = db.findRepairsByCustomer(customerName);
-        
+
         if (repairs.isEmpty()) {
             System.out.println("❌ ไม่พบข้อมูลการซ่อมสำหรับลูกค้า: " + customerName);
             return;
@@ -284,14 +285,15 @@ public class Member {
         System.out.println("\nพบ " + repairs.size() + " รายการซ่อม:");
         for (int i = 0; i < repairs.size(); i++) {
             Database.Repair repair = repairs.get(i);
-            System.out.println((i + 1) + ". เลขที่ซ่อม: " + repair.id + " | รุ่น: " + repair.model + 
-                             " | อาการ: " + repair.symptom + " | สถานะ: " + repair.status);
+            System.out.println((i + 1) + ". เลขที่ซ่อม: " + repair.id + " | รุ่น: " + repair.model +
+                    " | อาการ: " + repair.symptom + " | สถานะ: " + repair.status);
         }
 
         System.out.print("\nเลือกรายการที่ต้องการดูรายละเอียด (0 เพื่อย้อนกลับ): ");
         try {
             int choice = Integer.parseInt(sc.nextLine());
-            if (choice == 0) return;
+            if (choice == 0)
+                return;
             if (choice > 0 && choice <= repairs.size()) {
                 printRepairDetails(repairs.get(choice - 1));
             } else {
@@ -323,9 +325,9 @@ public class Member {
     // 🔔 text mode การแจ้งเตือน(สมาชิก)
     private void memberNotifications() {
         System.out.println("\n🔔===== การแจ้งเตือน (สมาชิก) =====");
-        
+
         List<Database.Notification> notifications = db.findNotificationsByTarget("สมาชิก");
-        
+
         if (notifications.isEmpty()) {
             System.out.println("❌ ยังไม่มีการแจ้งเตือน");
             return;
@@ -339,18 +341,19 @@ public class Member {
         }
 
         System.out.println("คุณมี " + unreadCount + " การแจ้งเตือนที่ยังไม่ได้อ่าน");
-        
+
         for (int i = 0; i < notifications.size(); i++) {
             Database.Notification notification = notifications.get(i);
             String statusIcon = notification.status.equals("ยังไม่อ่าน") ? "🔴" : "✅";
-            System.out.println((i + 1) + ". " + statusIcon + " " + notification.message + 
-                             " (" + notification.date + ")");
+            System.out.println((i + 1) + ". " + statusIcon + " " + notification.message +
+                    " (" + notification.date + ")");
         }
 
         System.out.print("\nเลือกการแจ้งเตือนที่ต้องการอ่าน (0 เพื่อย้อนกลับ): ");
         try {
             int choice = Integer.parseInt(sc.nextLine());
-            if (choice == 0) return;
+            if (choice == 0)
+                return;
             if (choice > 0 && choice <= notifications.size()) {
                 Database.Notification notification = notifications.get(choice - 1);
                 db.markNotificationAsRead(notification.id);
@@ -370,7 +373,7 @@ public class Member {
         System.out.println("2. ติดตามด้วยชื่อลูกค้า");
         System.out.println("3. กลับไปเมนูก่อนหน้า");
         System.out.print("เลือกวิธีติดตาม: ");
-        
+
         int choice;
         try {
             choice = Integer.parseInt(sc.nextLine());
@@ -382,7 +385,9 @@ public class Member {
         switch (choice) {
             case 1 -> trackByTrackingNumber();
             case 2 -> trackByCustomerName();
-            case 3 -> { return; }
+            case 3 -> {
+                return;
+            }
             default -> System.out.println("❌ กรุณาเลือกเมนูให้ถูกต้อง");
         }
     }
@@ -391,14 +396,14 @@ public class Member {
     private void trackByTrackingNumber() {
         System.out.print("\nกรุณากรอกเลข Track Number: ");
         String trackingNumber = sc.nextLine().trim();
-        
+
         if (trackingNumber.isEmpty()) {
             System.out.println("❌ กรุณากรอกเลข Track Number");
             return;
         }
 
         Database.Delivery delivery = db.findDeliveryByTrackingNumber(trackingNumber);
-        
+
         if (delivery == null) {
             System.out.println("❌ ไม่พบข้อมูลการจัดส่งสำหรับเลข TrackingNumber: " + trackingNumber);
             return;
@@ -411,14 +416,14 @@ public class Member {
     private void trackByCustomerName() {
         System.out.print("\nกรุณากรอกชื่อลูกค้า: ");
         String customerName = sc.nextLine().trim();
-        
+
         if (customerName.isEmpty()) {
             System.out.println("❌ กรุณากรอกชื่อลูกค้า");
             return;
         }
 
         List<Database.Delivery> deliveries = db.findDeliveriesByCustomer(customerName);
-        
+
         if (deliveries.isEmpty()) {
             System.out.println("❌ ไม่พบข้อมูลการจัดส่งสำหรับลูกค้า: " + customerName);
             return;
@@ -432,7 +437,8 @@ public class Member {
         System.out.print("\nเลือกรายการที่ต้องการดูรายละเอียด (0 เพื่อย้อนกลับ): ");
         try {
             int choice = Integer.parseInt(sc.nextLine());
-            if (choice == 0) return;
+            if (choice == 0)
+                return;
             if (choice > 0 && choice <= deliveries.size()) {
                 printDeliveryDetails(deliveries.get(choice - 1));
             } else {
@@ -464,7 +470,7 @@ public class Member {
         System.out.println("สถานะปัจจุบัน: " + getStatusWithIcon(delivery.status));
         System.out.println("วันที่สร้างรายการ: " + delivery.date);
         System.out.println("อัพเดทล่าสุด: " + delivery.lastUpdate);
-        
+
         System.out.println("\n📋 ประวัติการอัพเดท:");
         if (delivery.updates.isEmpty()) {
             System.out.println("   - ยังไม่มีประวัติการอัพเดท");
@@ -473,7 +479,7 @@ public class Member {
                 System.out.println("   📌 " + update);
             }
         }
-        
+
         printDeliveryCompanyContact(delivery.deliveryCompany);
         System.out.println("========================================\n");
     }
@@ -520,14 +526,14 @@ public class Member {
             System.out.println("❌ กรุณากรอกชื่อผู้ขอคืน");
             return;
         }
-        
+
         System.out.print("กรอกรายการสินค้าที่ต้องการคืน: ");
         String product = sc.nextLine().trim();
         if (product.isEmpty()) {
             System.out.println("❌ กรุณากรอกรายการสินค้า");
             return;
         }
-        
+
         System.out.print("เหตุผลการคืนสินค้า: ");
         String reason = sc.nextLine().trim();
         if (reason.isEmpty()) {
@@ -541,14 +547,14 @@ public class Member {
         System.out.println("\n✅ แจ้งคืนสินค้าเรียบร้อย!");
         System.out.println("สถานะ: รอดำเนินการ");
         System.out.println("พนักงานจะติดต่อคุณกลับภายใน 24 ชั่วโมง");
-        
+
         printReturnReceipt(name, product, reason);
     }
 
     // 🧾 ใบเสร็จคืนสินค้า
     private void printReturnReceipt(String name, String product, String reason) {
         String date = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date());
-        
+
         System.out.println("\n========================================");
         System.out.println("           ใบแจ้งคืนสินค้า");
         System.out.println("              ร้านแอปสโตร์");
@@ -571,14 +577,14 @@ public class Member {
         System.out.println("\n🔍===== ตรวจสอบการคืนสินค้า =====");
         System.out.print("กรอกชื่อลูกค้า: ");
         String customerName = sc.nextLine().trim();
-        
+
         if (customerName.isEmpty()) {
             System.out.println("❌ กรุณากรอกชื่อลูกค้า");
             return;
         }
 
         List<Database.Return> returns = db.findReturnsByCustomer(customerName);
-        
+
         if (returns.isEmpty()) {
             System.out.println("❌ ไม่พบข้อมูลการคืนสินค้าสำหรับลูกค้า: " + customerName);
             return;
@@ -587,14 +593,15 @@ public class Member {
         System.out.println("\nพบ " + returns.size() + " รายการคืนสินค้า:");
         for (int i = 0; i < returns.size(); i++) {
             Database.Return returnItem = returns.get(i);
-            System.out.println((i + 1) + ". เลขที่คืน: " + returnItem.id + " | สินค้า: " + returnItem.product + 
-                             " | สถานะ: " + returnItem.status);
+            System.out.println((i + 1) + ". เลขที่คืน: " + returnItem.id + " | สินค้า: " + returnItem.product +
+                    " | สถานะ: " + returnItem.status);
         }
 
         System.out.print("\nเลือกรายการที่ต้องการดูรายละเอียด (0 เพื่อย้อนกลับ): ");
         try {
             int choice = Integer.parseInt(sc.nextLine());
-            if (choice == 0) return;
+            if (choice == 0)
+                return;
             if (choice > 0 && choice <= returns.size()) {
                 printReturnDetails(returns.get(choice - 1));
             } else {
@@ -632,14 +639,14 @@ public class Member {
             System.out.println("❌ กรุณากรอกชื่อผู้ขอเคลม");
             return;
         }
-        
+
         System.out.print("กรอกรายการสินค้าที่ต้องการเคลม: ");
         String product = sc.nextLine().trim();
         if (product.isEmpty()) {
             System.out.println("❌ กรุณากรอกรายการสินค้า");
             return;
         }
-        
+
         System.out.print("เหตุผลการเคลมสินค้า: ");
         String reason = sc.nextLine().trim();
         if (reason.isEmpty()) {
@@ -653,14 +660,14 @@ public class Member {
         System.out.println("\n✅ แจ้งเคลมสินค้าเรียบร้อย!");
         System.out.println("สถานะ: รอดำเนินการ");
         System.out.println("พนักงานจะติดต่อคุณกลับภายใน 24 ชั่วโมง");
-        
+
         printClaimReceipt(name, product, reason);
     }
 
     // 🧾 ใบเสร็จเคลมสินค้า
     private void printClaimReceipt(String name, String product, String reason) {
         String date = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date());
-        
+
         System.out.println("\n========================================");
         System.out.println("           ใบแจ้งเคลมสินค้า");
         System.out.println("              ร้านแอปสโตร์");
@@ -684,7 +691,7 @@ public class Member {
             System.out.println("❌ ยังไม่มีรายการซื้อสินค้า");
             return;
         }
-        
+
         System.out.println("\n🧾===== ประวัติการซื้อทั้งหมด (" + purchaseHistory.size() + " รายการ) =====");
         for (int i = 0; i < purchaseHistory.size(); i++) {
             System.out.println("[" + (i + 1) + "] " + purchaseHistory.get(i));
