@@ -366,7 +366,7 @@ public class Member {
     // 🚚 text mode การจัดส่งสินค้า
     private void trackPackage() {
         System.out.println("\n🚚===== การจัดส่งสินค้า =====");
-        System.out.println("1. ติดตามด้วยเลขIMEI");
+        System.out.println("1. ติดตามด้วยเลข tracking Number");
         System.out.println("2. ติดตามด้วยชื่อลูกค้า");
         System.out.println("3. กลับไปเมนูก่อนหน้า");
         System.out.print("เลือกวิธีติดตาม: ");
@@ -387,20 +387,20 @@ public class Member {
         }
     }
 
-    // 🔢 ติดตามด้วยเลข IMEI
+    // 🔢 ติดตามด้วยเลข tracking Number
     private void trackByTrackingNumber() {
-        System.out.print("\nกรุณากรอกเลขIMEI: ");
+        System.out.print("\nกรุณากรอกเลข Track Number: ");
         String trackingNumber = sc.nextLine().trim();
         
         if (trackingNumber.isEmpty()) {
-            System.out.println("❌ กรุณากรอกเลขIMEI");
+            System.out.println("❌ กรุณากรอกเลข Track Number");
             return;
         }
 
         Database.Delivery delivery = db.findDeliveryByTrackingNumber(trackingNumber);
         
         if (delivery == null) {
-            System.out.println("❌ ไม่พบข้อมูลการจัดส่งสำหรับเลข IMEI: " + trackingNumber);
+            System.out.println("❌ ไม่พบข้อมูลการจัดส่งสำหรับเลข TrackingNumber: " + trackingNumber);
             return;
         }
 
@@ -456,7 +456,7 @@ public class Member {
         System.out.println("           ข้อมูลการติดตามพัสดุ");
         System.out.println("========================================");
         System.out.println("เลขที่คำสั่งซื้อ: " + delivery.purchaseId);
-        System.out.println("เลข IMEI : " + delivery.trackingNumber);
+        System.out.println("เลข trackingNumber : " + delivery.trackingNumber);
         System.out.println("ลูกค้า: " + delivery.customerName);
         System.out.println("ที่อยู่จัดส่ง: " + delivery.address);
         System.out.println("เบอร์โทร: " + delivery.phone);

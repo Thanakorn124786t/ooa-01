@@ -181,7 +181,7 @@ public class Database {
         notifications.add(new Notification(id, target, message, date, "ยังไม่อ่าน"));
     }
 
-    // 🔢 สร้างเลขIMEIอัตโนมัติ (ระบบหลัก)
+    // 🔢 สร้างเลข Tracking number อัตโนมัติ (ระบบหลัก)
     private String generateTrackingNumber(String company) {
         String prefix = switch (company) {
             case "Kerry Express" -> "KRY";
@@ -206,7 +206,7 @@ public class Database {
     }
 
     // ฟังก์ชันอื่นๆ ที่เหลืออยู่เดิม...
-    // 🔍 ค้นหาการจัดส่งโดยเลขIMEI
+    // 🔍 ค้นหาการจัดส่งโดยเลข trackingNumber
     public Delivery findDeliveryByTrackingNumber(String trackingNumber) {
         for (Delivery delivery : deliveries) {
             if (delivery.trackingNumber.equalsIgnoreCase(trackingNumber)) {
